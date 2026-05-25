@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital Ciencia y Compasión</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #fcfbfa; }
+        header { background-color: #FF8AF9; padding: 30px; text-align: center; }
+        .header-title { color: #941824; font-family: "Times New Roman", Times, serif; font-size: 35px; margin: 0; }
+        
+        /* Barra de Navegación */
+        nav { background-color: #4A6E91; display: flex; justify-content: center; }
+        nav ul { list-style-type: none; margin: 0; padding: 0; display: flex; }
+        nav ul li a { display: block; color: white; padding: 14px 20px; text-decoration: none; font-size: 16px; transition: 0.3s; }
+        nav ul li a:hover { background-color: #43616F; }
+
+        /* Contenido y Módulos */
+        article { padding: 20px; max-width: 1200px; margin: 0 auto; min-height: 400px; }
+        .modulo { display: none; }
+        .modulo.activo { display: block; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 25px; background-color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-size: 13px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #4A6E91; color: white; }
+        tr:hover { background-color: #f5f5f5; }
+
+        /* Consola MongoDB simulada */
+        .consola-mongodb { background-color: #1e1e1e; color: #66ff66; font-family: 'Courier New', Courier, monospace; padding: 15px; border-radius: 5px; margin: 15px 0; border-left: 5px solid #941824; }
+        h3.paso-titulo { color: #4A6E91; border-bottom: 2px solid #4A6E91; padding-bottom: 5px; margin-top: 20px; }
+
+        footer { background-color: #43616F; color: white; text-align: center; padding: 15px; font-size: 14px; margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 class="header-title">Hospital Ciencia y Compasión</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="#" onclick="mostrarModulo('inicio')">Inicio</a></li>
+        <li><a href="#" onclick="mostrarModulo('pacientes')">Pacientes</a></li>
+        <li><a href="#" onclick="mostrarModulo('doctores')">Doctores</a></li>
+        <li><a href="#" onclick="mostrarModulo('consultas')">Consultas</a></li>
+        <li><a href="#" onclick="mostrarModulo('inventario')">Inventario</a></li>
+        <li><a href="#" onclick="mostrarModulo('facturacion')">Facturación</a></li>
+    </ul>
+</nav>
+
+<article>
+    <div id="inicio" class="modulo activo">
+        <h1>Acerca de nosotros</h1>
+        <p><em>"Expertos en salud, comprometidos con tu bienestar"</em></p>
+        <p>Explore nuestro menú superior para gestionar sus consultas, revisar el inventario de farmacia o consultar su historial de facturación.</p>
+    </div>
+
+    <div id="pacientes" class="modulo">
+        <h1>Registro de Pacientes</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Paciente</th>
+                    <th>Nombre(s)</th>
+                    <th>Apellidos</th>
+                    <th>F. Nacimiento</th>
+                    <th>Género</th>
+                    <th>Tipo Sangre</th>
+                    <th>Alergias</th>
+                    <th>Habitación</th>
+                    <th>Teléfono</th>
+                    <th>Contacto de Emergencia / Correo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>01</td><td>Juan</td><td>Pérez García</td><td>12/05/1980</td><td>Masculino</td><td>O+</td><td>Ninguna</td><td>101</td><td>656-111-2233</td><td>María López (Esposa) / juan.perez@gmail.com</td></tr>
+                <tr><td>02</td><td>Elena</td><td>Rivas Torres</td><td>24/08/1996</td><td>Femenino</td><td>A+</td><td>Penicilina</td><td>105</td><td>656-444-5566</td><td>Roberto Rivas (Padre) / elena.rivas@gmail.com</td></tr>
+                <tr><td>03</td><td>Roberto</td><td>Gómez Farías</td><td>03/01/1998</td><td>Masculino</td><td>O-</td><td>Ninguna</td><td>188</td><td>656-195-3215</td><td>Esposa (656-422-8289) / robertogomez@gmail.com</td></tr>
+                <tr><td>04</td><td>Alejandro</td><td>Ruiz Esparza</td><td>12/05/2000</td><td>Masculino</td><td>O+</td><td>Penicilina</td><td>89</td><td>656-878-5637</td><td>Contacto: 656-319-1990 / alejandroos@gmail.com</td></tr>
+                <tr><td>06</td><td>Mateo</td><td>Ríos Pineda</td><td>30/06/1988</td><td>Masculino</td><td>B+</td><td>Ibuprofeno</td><td>135</td><td>656-567-7431</td><td>Contacto: 656-387-9233 / mateopineda@gmail.com</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="doctores" class="modulo">
+        <h1>Nuestros Doctores</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Doctor</th>
+                    <th>Profesión / Especialidad</th>
+                    <th>Edad</th>
+                    <th>Horario</th>
+                    <th>Celular</th>
+                    <th>Contacto Emergencia</th>
+                    <th>Correo Electrónico</th>
+                    <th>Días Laborales</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Octavio Mondragón</td><td>Psiquiatra</td><td>50</td><td>1pm - 3pm</td><td>614-403-8148</td><td>664-126-213 (Madre)</td><td>octaviomondragon@gmail.com</td><td>Sábado - Jueves</td></tr>
+                <tr><td>Hugo Vázquez</td><td>Neurocirujano</td><td>35</td><td>10am - 12am</td><td>656-889-1226</td><td>656-886-5436 (Hermano)</td><td>vazquezhugo@gmail.com</td><td>Martes - Viernes</td></tr>
+                <tr><td>Adrian Valseca</td><td>Cardiólogo</td><td>32</td><td>6:00 AM - 8:00 AM</td><td>614-403-8148</td><td>656-422-8289 (Esposa)</td><td>adrianvalseca@gmail.com</td><td>Lunes a Miércoles</td></tr>
+                <tr><td>Elena Smith</td><td>Pediatra</td><td>25</td><td>10am - 12am</td><td>656-787-5437</td><td>656-888-1220 (Hermano)</td><td>elenasmith@gmail.com</td><td>Martes - Viernes</td></tr>
+                <tr><td>Valeria Vallez</td><td>Ginecólogo</td><td>37</td><td>12pm - 1pm</td><td>656-887-5637</td><td>656-447-5642 (Padre)</td><td>tellezvaldez12@gmail.com</td><td>Miércoles - Lunes</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="consultas" class="modulo">
+        <h1>Historial de Consultas</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Consulta</th>
+                    <th>Fecha</th>
+                    <th>Signos Vitales</th>
+                    <th>Síntomas</th>
+                    <th>Diagnóstico</th>
+                    <th>Tratamiento</th>
+                    <th>Notas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>001</td><td>02/02/2026</td><td>TA 110/80, FC 75</td><td>Dolor de cabeza</td><td>Migraña</td><td>Paracetamol 500mg</td><td>Reposo 2 días</td></tr>
+                <tr><td>002</td><td>05/02/2026</td><td>TA 130/85, FC 80</td><td>Fiebre y tos</td><td>Gripe</td><td>Jarabe y reposo</td><td>Tomar líquidos</td></tr>
+                <tr><td>003</td><td>08/02/2026</td><td>TA 180/90, FC 80</td><td>Dolor estomacal</td><td>Gastritis</td><td>Omeprazol</td><td>Evitar picante</td></tr>
+                <tr><td>004</td><td>10/02/2026</td><td>TA 125/78, FC 72</td><td>Dolor estomacal</td><td>Gastritis</td><td>Amoxicilina</td><td>7 días de reposo</td></tr>
+                <tr><td>005</td><td>12/02/2026</td><td>TA 140/90, FC 85</td><td>Mareos</td><td>Hipertensión</td><td>Losartán</td><td>Control mensual</td></tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div id="inventario" class="modulo">
+        <h1>Evidencia de Operación: DELETE</h1>
+        <p><strong>Colección seleccionada para aplicar Delete:</strong> <code>inventario</code></p>
+
+        <h3 class="paso-titulo">2. Visualización de la Tabla Completa (Antes de Eliminar)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Código</th>
+                    <th>Nombre / Artículo</th>
+                    <th>Presentación / Categoría</th>
+                    <th>Dosis / Unidad</th>
+                    <th>Precio de Venta</th>
+                    <th>Fecha Caducidad</th>
+                    <th>Stock / Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background-color: #fff9e6;">
+                    <td><b>M001</b></td>
+                    <td><b>Tempra</b></td>
+                    <td><b>Tabletas</b></td>
+                    <td><b>500mg</b></td>
+                    <td><b>$25.00</b></td>
+                    <td><b>19/02/2030</b></td>
+                    <td><b>100 unidades</b></td>
+                </tr>
+                <tr><td>M002</td><td>Ibuprofeno</td><td>Tabletas</td><td>400mg</td><td>$40.00</td><td>22/04/2028</td><td>50 unidades</td></tr>
+                <tr><td>M003</td><td>Amoxicilina</td><td>Cápsulas</td><td>500mg</td><td>$85.00</td><td>01/07/2034</td><td>30 unidades</td></tr>
+                <tr><td>M004</td><td>Omeprazol</td><td>Cápsulas</td><td>20mg</td><td>$60.00</td><td>19/11/2026</td><td>60 unidades</td></tr>
+                <tr><td>M005</td><td>Losartán</td><td>Tableta</td><td>50mg</td><td>$90.00</td><td>17/05/2028</td><td>55 unidades</td></tr>
+                <tr><td>M006</td><td>Aspirina</td><td>Tabletas</td><td>500mg</td><td>$35.00</td><td>14/08/2029</td><td>120 unidades</td></tr>
+                <tr><td>M007</td><td>Loratadina</td><td>Tabletas</td><td>10mg</td><td>$20.00</td><td>30/11/2027</td><td>90 unidades</td></tr>
+                <tr><td>M008</td><td>Metformina</td><td>Tabletas</td><td>850mg</td><td>$45.00</td><td>25/01/2028</td><td>75 unidades</td></tr>
+                <tr><td>M009</td><td>Salbutamol</td><td>Inhalador</td><td>100mcg</td><td>$120.00</td><td>10/06/2026</td><td>40 unidades</td></tr>
+                <tr><td>M010</td><td>Paracetamol</td><td>Tabletas</td><td>500mg</td><td>$15.00</td><td>05/03/2030</td><td>200 unidades</td></tr>
+            </tbody>
+        </table>
+
+        <div class="consola-mongodb">
+            <strong>> db.inventario.deleteOne({ id_codigo: "M001" })</strong><br>
+            <span>{ "acknowledged" : true, "deletedCount" : 1 }</span><br>
+            <em>*Ejecutando comando deleteOne para remover el medicamento Tempra.*</em>
+        </div>
+
+        <h3 class="paso-titulo">3. Visualización de la Tabla (Después de realizar la acción Eliminar)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Código</th>
+                    <th>Nombre / Artículo</th>
+                    <th>Presentación / Categoría</th>
+                    <th>Dosis / Unidad</th>
+                    <th>Precio de Venta</th>
+                    <th>Fecha Caducidad</th>
+                    <th>Stock / Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>M002</td><td>Ibuprofeno</td><td>Tabletas</td><td>400mg</td><td>$40.00</td><td>22/04/2028</td><td>50 unidades</td></tr>
+                <tr><td>M003</td><td>Amoxicilina</td><td>Cápsulas</td><td>500mg</td><td>$85.00</td><td>01/07/2034</td><td>30 unidades</td></tr>
+                <tr><td>M004</td><td>Omeprazol</td><td>Cápsulas</td><td>20mg</td><td>$60.00</td><td>19/11/2026</td><td>60 unidades</td></tr>
+                <tr><td>M005</td><td>Losartán</td><td>Tableta</td><td>50mg</td><td>$90.00</td><td>17/05/2028</td><td>55 unidades</td></tr>
+                <tr><td>M006</td><td>Aspirina</td><td>Tabletas</td><td>500mg</td><td>$35.00</td><td>14/08/2029</td><td>120 unidades</td></tr>
+                <tr><td>M007</td><td>Loratadina</td><td>Tabletas</td><td>10mg</td><td>$20.00</td><td>30/11/2027</td><td>90 unidades</td></tr>
+                <tr><td>M008</td><td>Metformina</td><td>Tabletas</td><td>850mg</td><td>$45.00</td><td>25/01/2028</td><td>75 unidades</td></tr>
+                <tr><td>M009</td><td>Salbutamol</td><td>Inhalador</td><td>100mcg</td><td>$120.00</td><td>10/06/2026</td><td>40 unidades</td></tr>
+                <tr><td>M010</td><td>Paracetamol</td><td>Tabletas</td><td>500mg</td><td>$15.00</td><td>05/03/2030</td><td>200 unidades</td></tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div id="facturacion" class="modulo">
+        <h1>Control de Facturación</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Factura</th>
+                    <th>Paciente</th>
+                    <th>Fecha de Emisión</th>
+                    <th>Método de Pago</th>
+                    <th>Monto Total</th>
+                    <th>Estado de Pago</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>F005</td>
+                    <td>Luis Gómez</td>
+                    <td>12/02/2026</td>
+                    <td>Tarjeta</td>
+                    <td>$600.00</td>
+                    <td><strong style="color: #941824;">Pendiente</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</article>
+
+<footer>
+    <p>Nombre completo: BARRAZA PEREZ ASHLEY BERENICE | N. Control: a.24308051280499 | Semestre: 4to grupo: I | Especialidad: Programación</p>
+</footer>
+
+<script>
+    function mostrarModulo(idModulo) {
+        document.querySelector('.modulo.activo').classList.remove('activo');
+        document.getElementById(idModulo).classList.add('activo');
+    }
+</script>
+
+</body>
+</html>
+
+```
