@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Central Medical - Facturación</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+        header { background-color: #3b5763; color: white; padding: 20px; text-align: center; }
+        .header-title { margin: 0; font-size: 28px; }
+        nav { background-color: #567C8D; display: flex; justify-content: center; }
+        nav ul { list-style-type: none; margin: 0; padding: 0; display: flex; }
+        nav ul li a { display: block; color: white; text-align: center; padding: 14px 20px; text-decoration: none; font-size: 16px; }
+        nav ul li a:hover, nav ul li a.active { background-color: #43616F; }
+        .contenedor { max-width: 1000px; margin: 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #3b5763; margin-top: 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background-color: #567C8D; color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #ddd; color: #333; }
+        tr:hover { background-color: #f1f5f9; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 class="header-title">Central Medical</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="doctores.html">Doctores</a></li>
+        <li><a href="pacientes.html">Pacientes</a></li>
+        <li><a href="citas.html">Consultas / Citas</a></li>
+        <li><a href="ventas.html">Medicamentos / Ventas</a></li>
+        <li><a href="facturacion.html" class="active">Facturación</a></li>
+    </ul>
+</nav>
+
+<div class="contenedor">
+    <h2>Registro de Facturas Emitidas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Folio</th>
+                <th>Concepto de Cobro</th>
+                <th>Monto Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>F-001</td><td>Consulta General Urgencias</td><td>$350.00</td></tr>
+            <tr><td>F-003</td><td>Tratamiento Dental Básico</td><td>$500.00</td></tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
