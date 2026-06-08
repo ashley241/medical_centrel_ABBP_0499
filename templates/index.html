@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>MEDICAL CENTREL - Inicio</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+        header { background-color: #3b5763; color: white; padding: 20px; text-align: center; }
+        .header-title { margin: 0; font-size: 28px; }
+        nav { background-color: #567C8D; display: flex; justify-content: center; }
+        nav ul { list-style-type: none; margin: 0; padding: 0; display: flex; }
+        nav ul li a { display: block; color: white; text-align: center; padding: 14px 20px; text-decoration: none; font-size: 16px; transition: background-color 0.3s; }
+        nav ul li a:hover, nav ul li a.active { background-color: #43616F; }
+        .contenedor { max-width: 1000px; margin: 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        h2 { color: #3b5763; }
+        
+        /* Estilo para que la imagen quede centrada y se vea bien */
+        .img-medio {
+            display: block;
+            margin: 25px auto 10px auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 class="header-title">MEDICAL CENTREL</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="/" class="active">Inicio</a></li>
+        <li><a href="/doctores/">Doctores</a></li>
+        <li><a href="/pacientes/">Pacientes</a></li>
+        <li><a href="/citas/">Consultas / Citas</a></li>
+        <li><a href="/ventas/">Medicamentos / Ventas</a></li>
+        <li><a href="/facturacion/">Facturación</a></li>
+    </ul>
+</nav>
+
+<div class="contenedor">
+    <h2>Bienvenidos al Sistema de Control Médico</h2>
+    <p>Utilice el menú superior para navegar entre las diferentes colecciones de datos actualizadas de la clínica.</p>
+    
+    <img src="{{ url_for('static', filename='ash.png') }}" alt="Medical Centre Logo">
+</div>
+
+</body>
+</html>

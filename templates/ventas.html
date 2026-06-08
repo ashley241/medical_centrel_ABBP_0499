@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Central Medical - Ventas</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+        header { background-color: #3b5763; color: white; padding: 20px; text-align: center; }
+        .header-title { margin: 0; font-size: 28px; }
+        nav { background-color: #567C8D; display: flex; justify-content: center; }
+        nav ul { list-style-type: none; margin: 0; padding: 0; display: flex; }
+        nav ul li a { display: block; color: white; text-align: center; padding: 14px 20px; text-decoration: none; font-size: 16px; }
+        nav ul li a:hover, nav ul li a.active { background-color: #43616F; }
+        .contenedor { max-width: 1000px; margin: 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #3b5763; margin-top: 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background-color: #567C8D; color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #ddd; color: #333; }
+        tr:hover { background-color: #f1f5f9; }
+        .btn-nuevo { display: inline-block; background-color: #567C8D; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-bottom: 20px; }
+        .btn-nuevo:hover { background-color: #43616F; }
+    </style>
+</head>
+<body>
+<header>
+    <h1 class="header-title">Central Medical</h1>
+</header>
+<nav>
+    <ul>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/doctores/">Doctores</a></li>
+        <li><a href="/pacientes/">Pacientes</a></li>
+        <li><a href="/citas/">Consultas / Citas</a></li>
+        <li><a href="/ventas/" class="active">Medicamentos / Ventas</a></li>
+        <li><a href="/facturacion/">Facturación</a></li>
+    </ul>
+</nav>
+<div class="contenedor">
+    <h2>CENTRAL MEDICAL - VENTAS DE FARMACIA</h2>
+    
+    <a href="/ventas/nueva" class="btn-nuevo">Registrar Nueva Venta</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Medicamento</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Total de Venta</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for venta in ventas %}
+            <tr>
+                <td>{{ venta.med }}</td>
+                <td>{{ venta.cant }}</td>
+                <td>${{ venta.pre }}</td>
+                <td><strong>${{ venta.tot }}</strong></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" style="text-align: center; color: #7f8c8d;">No hay registros de ventas en el sistema.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
