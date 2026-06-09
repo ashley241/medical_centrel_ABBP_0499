@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Central Medical - Facturación</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+        header { background-color: #3b5763; color: white; padding: 20px; text-align: center; }
+        .header-title { margin: 0; font-size: 28px; }
+        nav { background-color: #567c8d; display: flex; justify-content: center; }
+        nav ul { list-style-type: none; margin: 0; padding: 0; display: flex; }
+        nav ul li a { display: block; color: white; text-align: center; padding: 14px 20px; text-decoration: none; font-size: 16px; }
+        nav ul li a:hover, nav ul li a.active { background-color: #43616f; }
+        .contenedor { max-width: 1200px; margin: 30px auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #3b5763; margin-top: 0; }
+        
+        /* Botones */
+        .btn { display: inline-block; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: bold; cursor: pointer; border: none; }
+        .btn-primary { background-color: #43616f; color: white; margin-bottom: 20px; padding: 8px 15px; font-size: 14px; }
+        .btn-primary:hover { background-color: #3b5763; }
+        .btn-warning { background-color: #f0ad4e; color: white; margin-right: 5px; }
+        .btn-warning:hover { background-color: #ec971f; }
+        .btn-danger { background-color: #d9534f; color: white; }
+        .btn-danger:hover { background-color: #c9302c; }
+        .btn-success { background-color: #28a745; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+
+        /* Tabla */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background-color: #567c8d; color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #ddd; color: #333; }
+        tr:hover { background-color: #f1f5f9; }
+
+        /* Modales */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+        .modal-content { background-color: white; margin: 80px auto; padding: 25px; border-radius: 8px; width: 400px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .modal-content h3 { margin-top: 0; color: #3b5763; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        .form-group input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .modal-buttons { text-align: right; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 class="header-title">Central Medical</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/doctores/">Doctores</a></li>
+            <li><a href="/pacientes/">Pacientes</a></li>
+            <li><a href="/citas/">Consultas / Citas</a></li>
+            <li><a href="/facturacion/" class="active">Facturación</a></li>
+        </ul>
+    </nav>
+
+    <div class="contenedor">
+        <h2>CENTRAL MEDICAL - CONTROL DE FACTURACIÓN</h2>
+        
+        <button class="btn btn-primary" onclick="abrirModalAgregar()">+ Generar Nueva Factura</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Folio</th>
+                    <th>Concepto / Servicio</th>
+                    <th>Monto Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for factura in facturas %}
+                <tr>
+                    <td>{{ factura.folio }}</td>
+                    <td>{{ factura.concepto }}</td>
+                    <td>${{ factura.monto }}</td>
+                    <td style="white-space: nowrap;">
+                        <button class="btn btn-warning" onclick="abrirModalEditar('{{ factura._id }}', '{{ factura.folio }}', '{{ factura.concepto }}', '{{ factura.monto }}')">Editar</button>
+                        <a href="/facturacion/eliminar/{{ factura._id }}" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar esta factura?')">Eliminar</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" style="text-align: center; color: gray; padding: 20px;">No hay facturas registradas.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="modalAgregar" class="modal">
+        <div class="modal-content">
+            <h3>Generar Factura</h3>
+            <form action="/facturacion/agregar" method="POST">
+                <div class="form-group"><label>Folio:</label><input type="text" name="folio" placeholder="Ej. F-007" required></div>
+                <div class="form-group"><label>Concepto / Servicio:</label><input type="text" name="concepto" required></div>
+                <div class="form-group"><label>Monto ($):</label><input type="number" step="0.01" name="monto" required></div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModalAgregar()">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Guardar Factura</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalEditar" class="modal">
+        <div class="modal-content">
+            <h3>Modificar Factura</h3>
+            <form id="formEditar" action="" method="POST">
+                <div class="form-group"><label>Folio:</label><input type="text" id="edit_folio" name="folio" required></div>
+                <div class="form-group"><label>Concepto / Servicio:</label><input type="text" id="edit_concepto" name="concepto" required></div>
+                <div class="form-group"><label>Monto ($):</label><input type="number" step="0.01" id="edit_monto" name="monto" required></div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModalEditar()">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Actualizar Factura</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function abrirModalAgregar() { document.getElementById('modalAgregar').style.display = 'block'; }
+        function cerrarModalAgregar() { document.getElementById('modalAgregar').style.display = 'none'; }
+
+        function abrirModalEditar(id, folio, concepto, monto) {
+            document.getElementById('formEditar').action = "/facturacion/editar/" + id;
+            document.getElementById('edit_folio').value = folio;
+            document.getElementById('edit_concepto').value = concepto;
+            document.getElementById('edit_monto').value = monto;
+            document.getElementById('modalEditar').style.display = 'block';
+        }
+        function cerrarModalEditar() { document.getElementById('modalEditar').style.display = 'none'; }
+    </script>
+
+</body>
+</html>

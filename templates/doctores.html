@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Central Medical - Doctores</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+        header { background-color: #3b5763; color: white; padding: 20px; text-align: center; }
+        .header-title { margin: 0; font-size: 28px; }
+        nav { background-color: #567c8d; display: flex; justify-content: center; }
+        nav ul { list-style-type: none; margin: 0; padding: 0; display: flex; }
+        nav ul li a { display: block; color: white; text-align: center; padding: 14px 20px; text-decoration: none; font-size: 16px; }
+        nav ul li a:hover, nav ul li a.active { background-color: #43616f; }
+        .contenedor { max-width: 1200px; margin: 30px auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #3b5763; margin-top: 0; }
+        
+        /* Botones */
+        .btn { display: inline-block; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: bold; cursor: pointer; border: none; }
+        .btn-primary { background-color: #43616f; color: white; margin-bottom: 20px; padding: 8px 15px; font-size: 14px; }
+        .btn-primary:hover { background-color: #3b5763; }
+        .btn-warning { background-color: #f0ad4e; color: white; margin-right: 5px; }
+        .btn-warning:hover { background-color: #ec971f; }
+        .btn-danger { background-color: #d9534f; color: white; }
+        .btn-danger:hover { background-color: #c9302c; }
+        .btn-success { background-color: #28a745; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+
+        /* Tabla */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background-color: #567c8d; color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #ddd; color: #333; }
+        tr:hover { background-color: #f1f5f9; }
+
+        /* Estilos de los Modales (Formularios Flotantes) */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+        .modal-content { background-color: white; margin: 80px auto; padding: 25px; border-radius: 8px; width: 400px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .modal-content h3 { margin-top: 0; color: #3b5763; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        .form-group input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .modal-buttons { text-align: right; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 class="header-title">Central Medical</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/doctores/" class="active">Doctores</a></li>
+            <li><a href="/pacientes/">Pacientes</a></li>
+            <li><a href="/citas/">Consultas / Citas</a></li>
+            <li><a href="/medicamentos/">Medicamentos / Ventas</a></li>
+            <li><a href="/facturacion/">Facturación</a></li>
+        </ul>
+    </nav>
+
+    <div class="contenedor">
+        <h2>CENTRAL MEDICAL - DOCTORES</h2>
+        
+        <button class="btn btn-primary" onclick="abrirModalAgregar()">+ Registrar Nuevo Doctor</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Especialidad</th>
+                    <th>Edad</th>
+                    <th>Horario</th>
+                    <th>Días</th>
+                    <th>Teléfono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doctor in doctores %}
+                <tr>
+                    <td>{{ doctor.nombre }}</td>
+                    <td>{{ doctor.especialidad }}</td>
+                    <td>{{ doctor.edad }}</td>
+                    <td>{{ doctor.horario }}</td>
+                    <td>{{ doctor.dias }}</td>
+                    <td>{{ doctor.telefono }}</td>
+                    <td style="white-space: nowrap;">
+                        <button class="btn btn-warning" onclick="abrirModalEditar('{{ doctor._id }}', '{{ doctor.nombre }}', '{{ doctor.especialidad }}', '{{ doctor.edad }}', '{{ doctor.horario }}', '{{ doctor.dias }}', '{{ doctor.telefono }}')">Editar</button>
+                        
+                        <a href="/doctores/eliminar/{{ doctor._id }}" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar a este doctor?')">Eliminar</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" style="text-align: center; color: gray; padding: 20px;">No hay doctores registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="modalAgregar" class="modal">
+        <div class="modal-content">
+            <h3>Registrar Nuevo Doctor</h3>
+            <form action="/doctores/agregar" method="POST">
+                <div class="form-group"><label>Nombre Completo:</label><input type="text" name="nombre" required></div>
+                <div class="form-group"><label>Especialidad:</label><input type="text" name="especialidad" required></div>
+                <div class="form-group"><label>Edad:</label><input type="number" name="edad" required></div>
+                <div class="form-group"><label>Horario:</label><input type="text" name="horario" required></div>
+                <div class="form-group"><label>Días de Atención:</label><input type="text" name="dias" required></div>
+                <div class="form-group"><label>Teléfono:</label><input type="text" name="telefono" required></div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModalAgregar()">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Guardar Doctor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalEditar" class="modal">
+        <div class="modal-content">
+            <h3>Editar Datos del Doctor</h3>
+            <form id="formEditar" action="" method="POST">
+                <div class="form-group"><label>Nombre Completo:</label><input type="text" id="edit_nombre" name="nombre" required></div>
+                <div class="form-group"><label>Especialidad:</label><input type="text" id="edit_especialidad" name="especialidad" required></div>
+                <div class="form-group"><label>Edad:</label><input type="number" id="edit_edad" name="edad" required></div>
+                <div class="form-group"><label>Horario:</label><input type="text" id="edit_horario" name="horario" required></div>
+                <div class="form-group"><label>Días de Atención:</label><input type="text" id="edit_dias" name="dias" required></div>
+                <div class="form-group"><label>Teléfono:</label><input type="text" id="edit_telefono" name="telefono" required></div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModalEditar()">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Actualizar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function abrirModalAgregar() { document.getElementById('modalAgregar').style.display = 'block'; }
+        function cerrarModalAgregar() { document.getElementById('modalAgregar').style.display = 'none'; }
+
+        function abrirModalEditar(id, nombre, especialidad, edad, horario, dias, telefono) {
+            document.getElementById('formEditar').action = "/doctores/editar/" + id;
+            document.getElementById('edit_nombre').value = nombre;
+            document.getElementById('edit_especialidad').value = especialidad;
+            document.getElementById('edit_edad').value = edad;
+            document.getElementById('edit_horario').value = horario;
+            document.getElementById('edit_dias').value = dias;
+            document.getElementById('edit_telefono').value = telefono;
+            document.getElementById('modalEditar').style.display = 'block';
+        }
+        function cerrarModalEditar() { document.getElementById('modalEditar').style.display = 'none'; }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Central Medical - Nueva Cita</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+        header { background-color: #3b5763; color: white; padding: 20px; text-align: center; }
+        .contenedor { max-width: 600px; margin: 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #3b5763; margin-top: 0; }
+        form { background-color: #f9fbfb; padding: 25px; border: 1px solid #e2e8f0; border-radius: 6px; }
+        .campo { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
+        input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box; }
+        .botones { margin-top: 20px; display: flex; gap: 10px; }
+        button { background-color: #567C8D; color: white; border: none; padding: 12px 20px; cursor: pointer; font-weight: bold; border-radius: 4px; }
+        button:hover { background-color: #43616F; }
+        .btn-cancelar { background-color: #94a3b8; color: white; text-decoration: none; padding: 12px 20px; font-weight: bold; border-radius: 4px; text-align: center; }
+        .btn-cancelar:hover { background-color: #64748b; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Central Medical</h1>
+</header>
+<div class="contenedor">
+    <h2>Agendar Nueva Cita</h2>
+    
+    <form action="/citas/guardar" method="POST">
+        <div class="campo">
+            <label>Paciente:</label>
+            <input type="text" name="pac" required>
+        </div>
+        <div class="campo">
+            <label>Doctor:</label>
+            <input type="text" name="doc" required>
+        </div>
+        <div class="campo">
+            <label>Fecha:</label>
+            <input type="date" name="fec" required>
+        </div>
+        <div class="campo">
+            <label>Hora:</label>
+            <input type="time" name="hor" required>
+        </div>
+        
+        <div class="botones">
+            <button type="submit">Agendar Cita</button>
+            <a href="/citas" class="btn-cancelar">Cancelar</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

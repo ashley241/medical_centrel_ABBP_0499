@@ -1,0 +1,49 @@
+from flask import Blueprint, render_template, request, redirect
+from bson.objectid import ObjectId
+from pymongo import MongoClient
+
+cliente = MongoClient("mongodb+srv://central1.h0bcnkb.mongodb.net/", tlsAllowInvalidCertificates=True)
+db = cliente['central1']
+
+medicamentos_bp = Blueprint('medicamentos', __name__)
+
+@medicamentos_bp.route('/medicamentos/')
+def medicamentos():
+    # Busca tu archivo "medicamento.html" (en singular) como se ve en tu VS Code
+    todos_meds = list(db.medicamentos.find())
+    return render_template('medicamento.html', medicamentos=todos_meds)
+
+# Busca tu formulario "frommedicamento.html"
+@medicamentos_bp.route('/medicamentos/formulario')
+def formulario_medicamentos():
+    return render_template('frommedicamento.html')
+
+@medicamentos_bp.route('/medicamentos/agregar', methods=['POST'])
+def agregar_medicamento():
+    datos = {
+        "nombre": request.form.get('nombre'),
+        "componente": request.form.get('componente'),
+        "precio": float(request.form.get('precio')),
+        "stock": int(request.form.get('stock'))
+    }
+    db.medicamentos.insert_one(datos)
+    return redirect('/medicamentos/')
+
+@medicamentos_bp.route('/medicamentos/editar/<id>', methods=['POST'])
+def editar_medicamento(id):
+    filtro = {"_id": ObjectId(id)}
+    nuevos_valores = {
+        "$set": {
+            "nombre": request.form.get('nombre'),
+            "componente": request.form.get('componente'),
+            "precio": float(request.form.get('precio')),
+            "stock": int(request.form.get('stock'))
+        }
+    }
+    db.medicamentos.update_one(filtro, nuevos_valores)
+    return redirect('/medicamentos/')
+
+@medicamentos_bp.route('/medicamentos/eliminar/<id>')
+def eliminar_medicamento(id):
+    db.medicamentos.delete_one({"_id": ObjectId(id)})
+    return redirect('/medicamentos/')

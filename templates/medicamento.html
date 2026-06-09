@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Central Medical - Medicamentos</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+        header { background-color: #3b5763; color: white; padding: 20px; text-align: center; }
+        .header-title { margin: 0; font-size: 28px; }
+        nav { background-color: #567c8d; display: flex; justify-content: center; }
+        nav ul { list-style-type: none; margin: 0; padding: 0; display: flex; }
+        nav ul li a { display: block; color: white; text-align: center; padding: 14px 20px; text-decoration: none; font-size: 16px; }
+        nav ul li a:hover, nav ul li a.active { background-color: #43616f; }
+        .contenedor { max-width: 1200px; margin: 30px auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #3b5763; margin-top: 0; }
+        .acciones-tabla { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px; }
+        .input-busqueda { padding: 8px 15px; width: 300px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box; }
+        .btn { display: inline-block; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: bold; cursor: pointer; border: none; }
+        .btn-primary { background-color: #43616f; color: white; padding: 8px 15px; font-size: 14px; }
+        .btn-warning { background-color: #f0ad4e; color: white; margin-right: 5px; }
+        .btn-danger { background-color: #d9534f; color: white; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background-color: #567c8d; color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #ddd; color: #333; }
+        tr:hover { background-color: #f1f5f9; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 class="header-title">Central Medical</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/doctores/">Doctores</a></li>
+            <li><a href="/pacientes/">Pacientes</a></li>
+            <li><a href="/citas/">Consultas / Citas</a></li>
+            <li><a href="/facturacion/">Facturación</a></li>
+            <li><a href="/medicamentos/" class="active">Medicamentos</a></li>
+        </ul>
+    </nav>
+
+    <div class="contenedor">
+        <h2>CENTRAL MEDICAL - CONTROL DE MEDICAMENTOS</h2>
+        
+        <div class="acciones-tabla">
+            <a href="/medicamentos/formulario" class="btn btn-primary">+ Registrar Medicamento</a>
+            <input type="text" id="inputBuscarMed" class="input-busqueda" placeholder="Buscar por Nombre...">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre comercial</th>
+                    <th>Componente activo</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaMedicamentos">
+                {% for med in medicamentos %}
+                <tr>
+                    <td>{{ med.nombre }}</td>
+                    <td>{{ med.componente }}</td>
+                    <td>${{ med.precio }}</td>
+                    <td>{{ med.stock }} u.</td>
+                    <td style="white-space: nowrap;">
+                        <a href="/medicamentos/formulario?id={{ med._id }}&nombre={{ med.nombre }}&componente={{ med.componente }}&precio={{ med.precio }}&stock={{ med.stock }}" class="btn btn-warning">Editar</a>
+                        <a href="/medicamentos/eliminar/{{ med._id }}" class="btn btn-danger" onclick="return confirm('¿Eliminar este medicamento?')">Eliminar</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr id="filaVaciaMed">
+                    <td colspan="5" style="text-align: center; color: gray; padding: 20px;">No hay medicamentos registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById('inputBuscarMed').addEventListener('keyup', function() {
+            let filtro = this.value.toLowerCase();
+            let filas = document.querySelectorAll('#tablaMedicamentos tr');
+            filas.forEach(function(fila) {
+                if(fila.id === 'filaVaciaMed') return;
+                let nombreCelda = fila.getElementsByTagName('td')[0].textContent.toLowerCase();
+                fila.style.display = nombreCelda.includes(filtro) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>
